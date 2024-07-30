@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>Administración de Usuarios</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre de Usuario</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>
+          <button class="edit" (click)="editUser(user)">Editar</button>
+          <button class="delete" (click)="deleteUser(user.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="isEditing" class="edit-form">
+    <h2>Editar Usuario</h2>
+    <form (ngSubmit)="updateUser()">
+      <label for="username">Nombre de Usuario:</label>
+      <input id="username" [(ngModel)]="selectedUser.username" type="text" name="username">
+      <button type="submit">Actualizar</button>
+    </form>
+  </div>
+</div>

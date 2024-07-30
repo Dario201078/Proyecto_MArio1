@@ -1,0 +1,25 @@
+.privacy-policy {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-policy h2 {
+  margin: 0 0 10px 0;
+}
+
+.privacy-policy p {
+  margin: 0 0 20px 0;
+}
+
+.privacy-policy button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
