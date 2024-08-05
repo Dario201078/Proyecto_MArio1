@@ -25,25 +25,24 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
-
       this.validacionService.login(username, password).subscribe(
         response => {
-          if (response.message === 'Logueo exitoso') {
-            console.log('User logged in successfully');
-            localStorage.setItem('role', response.user.role); // Almacenar el rol en el localStorage
-            if (response.user.role === 'admin') {
-              this.router.navigate(['/admin']);
-            } else {
-              this.router.navigate(['/home']);
-            }
+          if (response.isEmailVerified) {
+            console.log("Correo electronico no verificado")
           } else {
-            console.error('Error logging in:', response.message);
+            if (response.message === "Login exitoso" && response.role === "admin") {
+              this.router.navigate(["admin"]);
+            } else {
+              this.router.navigate(["home"]);
+            }
           }
         },
-        error => console.error('Error:', error)
+        error => {
+          console.error('Error logging in', error);
+        }
       );
     }
   }
@@ -51,4 +50,9 @@ export class LoginComponent {
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
+
+  navigateToResetPassword(): void {
+    this.router.navigate(['password']);
+  }
+
 }

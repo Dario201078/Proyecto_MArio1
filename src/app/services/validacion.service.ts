@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ValidacionService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'https://localhost:3000';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -32,4 +32,14 @@ export class ValidacionService {
   getRole(): string | null {
     return localStorage.getItem('role');
   }
+
+  public resetPassword(username: string, token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/reset-password`, { username, token, newPassword });
+  }
+
+
+  public requestPasswordReset(username: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forgot-password`, { username });
+  }
+
 }

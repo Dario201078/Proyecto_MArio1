@@ -1,4 +1,68 @@
-<div class="container">
-  <h1>Bienvenido, Usuario!</h1>
-  <p>Esta es la página principal para los usuarios regulares.</p>
+<div class="background">
+  <div class="container">
+    <header>
+      <h1>Bienvenido a Nuestra Tienda de Ropa Mexa</h1>
+      <p>Explora nuestra colección de ropa exclusiva donde se encuentra tu artista favorito</p>
+    </header>
+
+    <section class="catalog">
+      <h2>Catálogo de Productos</h2>
+      <div class="product-grid">
+        <div class="product-card" *ngFor="let producto of productos">
+          <img class="product-image" [src]="producto.imagenSrc" alt="Producto">
+          <div class="product-details">
+            <h3 class="product-title">{{ producto.titulo }}</h3>
+            <p class="product-description">{{ producto.descripcion }}</p>
+            <span class="price">{{ producto.precio | currency:'MXN' }}</span>
+            <button class="btn-add-to-cart" (click)="agregarItemAlCarrito(producto)">Añadir al Carrito</button>
+            <button class="btn-detalle" (click)="mostrarDetallesProducto(producto)">Ver Detalles</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cart">
+      <h2>Tu Carrito de Compras</h2>
+      <div class="producto-detalle" *ngIf="productoSeleccionado">
+        <h2 class="header-carrito">Detalles del producto</h2>
+        <h2>{{ productoSeleccionado.titulo }}</h2>
+        <img [src]="productoSeleccionado.imagenSrc" alt="{{ productoSeleccionado.titulo }}" class="img-item">
+        <p class="descripcion-item">{{ productoSeleccionado.descripcion }}</p>
+        <span class="precio-item">{{ productoSeleccionado.precio | currency:'MXN' }}</span>
+        <button class="boton-item" (click)="agregarItemAlCarrito(productoSeleccionado)">Agregar al Carrito</button>
+        <button class="btn-cerrar" (click)="cerrarDetalle()">Cerrar</button>
+      </div>
+
+      <div class="header-carrito">
+        <h2>Tu Carrito</h2>
+      </div>
+
+      <div class="carrito-items">
+        <div class="carrito-item" *ngFor="let item of carritoItems; let i = index">
+          <img [src]="item.imagenSrc" width="80px" alt="">
+          <div class="carrito-item-detalles">
+            <span class="carrito-item-titulo">{{ item.titulo }}</span>
+            <div class="selector-cantidad">
+              <i class="fa-solid fa-minus restar-cantidad" (click)="restarCantidad(i)"></i>
+              <label for="cantidad-{{i}}" class="visually-hidden">Cantidad</label>
+              <input type="text" [value]="item.cantidad" class="carrito-item-cantidad" disabled>
+              <i class="fa-solid fa-plus sumar-cantidad" (click)="sumarCantidad(i)"></i>
+            </div>
+            <span class="carrito-item-precio">{{ item.precio | currency:'MXN' }}</span>
+          </div>
+          <button class="btn-eliminar" (click)="eliminarItemCarrito(i)" aria-label="eliminar">
+            <i class="fa-solid fa-trash">eliminar</i>
+          </button>
+        </div>
+      </div>
+
+      <div class="carrito-total">
+        <div class="fila">
+          <strong>Tu Total</strong>
+          <span class="carrito-precio-total">{{ total | currency:'MXN' }}</span>
+        </div>
+        <button class="btn-pagar" (click)="pagarClicked()">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
+      </div>
+    </section>
+  </div>
 </div>

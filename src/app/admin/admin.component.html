@@ -28,4 +28,15 @@
       <button type="submit">Actualizar</button>
     </form>
   </div>
+
+  <div class="create-form">
+    <h2>Crear Usuario</h2>
+    <form (ngSubmit)="createUser()">
+      <label for="new-username">Nombre de Usuario:</label>
+      <input id="new-username" [(ngModel)]="newUser.username" type="text" name="new-username">
+      <label for="new-password">Contraseña:</label>
+      <input id="new-password" [(ngModel)]="newUser.password" type="password" name="new-password">
+      <button type="submit">Crear Usuario</button>
+    </form>
+  </div>
 </div>
