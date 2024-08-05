@@ -6,6 +6,13 @@ import { Router } from '@angular/router';
 import { CrudService } from '../services/crud.service';
 import { ValidacionService } from '../services/validacion.service';
 
+interface User {
+  id?: number;
+  username: string;
+  password?: string;
+  role: string;
+}
+
 @Component({
   selector: 'app-admin',
   standalone: true,
@@ -15,9 +22,9 @@ import { ValidacionService } from '../services/validacion.service';
   providers: [ValidacionService, CrudService]
 })
 export class AdminComponent implements OnInit {
-  users: any[] = [];
-  newUser = { username: '', password: '' };
-  selectedUser: any = null;
+  users: User[] = [];
+  newUser: User = { username: '', password: '', role: 'user' }; // Agregamos 'role'
+  selectedUser: User = { id: 0, username: '', role: 'user' }; // Agregamos 'role'
   isEditing = false;
 
   constructor(
@@ -32,7 +39,7 @@ export class AdminComponent implements OnInit {
   }
 
   getUsers(): void {
-    this.crudservice.getUsers().subscribe(users => {
+    this.crudservice.getUsers().subscribe((users: User[]) => {
       this.users = users;
     });
   }
@@ -41,23 +48,27 @@ export class AdminComponent implements OnInit {
     if (this.newUser.username && this.newUser.password) {
       this.crudservice.createUser(this.newUser).subscribe(() => {
         this.getUsers();
-        this.newUser = { username: '', password: '' };
+        this.newUser = { username: '', password: '', role: 'user' }; // Reiniciamos 'newUser'
       });
     } else {
       console.log('Por favor, complete todos los campos.');
     }
   }
 
-  editUser(user: any): void {
+  editUser(user: User): void {
     this.selectedUser = { ...user };
     this.isEditing = true;
   }
 
   updateUser(): void {
-    this.crudservice.updateUser(this.selectedUser.id, this.selectedUser).subscribe(() => {
-      this.getUsers();
-      this.cancelEdit();
-    });
+    if (this.selectedUser.id !== undefined) {
+      this.crudservice.updateUser(this.selectedUser.id, this.selectedUser).subscribe(() => {
+        this.getUsers();
+        this.cancelEdit();
+      });
+    } else {
+      console.error('Error: selectedUser.id is undefined');
+    }
   }
 
   deleteUser(id: number): void {
@@ -67,7 +78,7 @@ export class AdminComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    this.selectedUser = null;
+    this.selectedUser = { id: 0, username: '', role: 'user' }; // Reiniciamos 'selectedUser'
     this.isEditing = false;
   }
 }

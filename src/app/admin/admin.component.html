@@ -5,6 +5,7 @@
       <tr>
         <th>ID</th>
         <th>Nombre de Usuario</th>
+        <th>Rol</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -12,9 +13,10 @@
       <tr *ngFor="let user of users">
         <td>{{ user.id }}</td>
         <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
         <td>
           <button class="edit" (click)="editUser(user)">Editar</button>
-          <button class="delete" (click)="deleteUser(user.id)">Eliminar</button>
+          <button class="delete" (click)="deleteUser(user.id!)">Eliminar</button>
         </td>
       </tr>
     </tbody>
@@ -24,8 +26,16 @@
     <h2>Editar Usuario</h2>
     <form (ngSubmit)="updateUser()">
       <label for="username">Nombre de Usuario:</label>
-      <input id="username" [(ngModel)]="selectedUser.username" type="text" name="username">
+      <input id="username" [(ngModel)]="selectedUser.username" type="text" name="username" required>
+
+      <label for="role">Rol:</label>
+      <select id="role" [(ngModel)]="selectedUser.role" name="role" required>
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+
       <button type="submit">Actualizar</button>
+      <button type="button" (click)="cancelEdit()">Cancelar</button>
     </form>
   </div>
 
@@ -33,9 +43,17 @@
     <h2>Crear Usuario</h2>
     <form (ngSubmit)="createUser()">
       <label for="new-username">Nombre de Usuario:</label>
-      <input id="new-username" [(ngModel)]="newUser.username" type="text" name="new-username">
+      <input id="new-username" [(ngModel)]="newUser.username" type="text" name="new-username" required>
+
       <label for="new-password">Contraseña:</label>
-      <input id="new-password" [(ngModel)]="newUser.password" type="password" name="new-password">
+      <input id="new-password" [(ngModel)]="newUser.password" type="password" name="new-password" required>
+
+      <label for="new-role">Rol:</label>
+      <select id="new-role" [(ngModel)]="newUser.role" name="new-role" required>
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+
       <button type="submit">Crear Usuario</button>
     </form>
   </div>

@@ -235,6 +235,29 @@ app.get('/users/:id', (req, res) => {
   });
 });
 
+// Actualizar rol de un usuario (solo administradores)
+app.put('/users/:id/role', (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (!['user', 'admin'].includes(role)) {
+    return res.status(400).send({ message: 'Rol no válido' });
+  }
+
+  const sql = 'UPDATE users SET role = ? WHERE id = ?';
+
+  db.query(sql, [role, id], (err, result) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: 'Usuario no encontrado' });
+    }
+    res.send({ message: 'Rol actualizado exitosamente' });
+  });
+});
+
+
 // Actualizar un usuario (Actualizar)
 app.put('/users/:id', (req, res) => {
   const { id } = req.params;
