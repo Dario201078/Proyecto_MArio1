@@ -1,0 +1,32 @@
+<div class="container mt-5">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input id="username" type="text" formControlName="username" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input id="password" type="password" formControlName="password" class="form-control" required>
+      <div *ngIf="registerForm.get('password')?.errors?.['minlength']" class="text-danger">
+        La contraseña debe tener al menos 8 caracteres.
+      </div>
+      <div *ngIf="registerForm.get('password')?.errors?.['uppercase']" class="text-danger">
+        La contraseña debe tener al menos una letra mayúscula.
+      </div>
+      <div *ngIf="registerForm.get('password')?.errors?.['lowercase']" class="text-danger">
+        La contraseña debe tener al menos una letra minúscula.
+      </div>
+      <div *ngIf="registerForm.get('password')?.errors?.['specialChar']" class="text-danger">
+        La contraseña debe tener al menos un carácter especial.
+      </div>
+      <div *ngIf="registerForm.get('password')?.errors?.['consecutiveNumbers']" class="text-danger">
+        La contraseña no puede tener números consecutivos.
+      </div>
+      <div *ngIf="registerForm.get('password')?.errors?.['consecutiveLetters']" class="text-danger">
+        La contraseña no puede tener letras consecutivas.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register</button>
+  </form>
+  <button class="btn btn-secondary mt-3" (click)="navigateToLogin()">Ya tienes una cuenta? Inicia sesión</button>
+</div>
